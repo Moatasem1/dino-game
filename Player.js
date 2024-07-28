@@ -23,17 +23,21 @@ export default class Player {
     this.yStandingPosition = this.y;
 
     this.standingStillImage = new Image();
-    this.standingStillImage.src = "images/standing_still.png";
+    this.standingStillImage.src = "images/mario_run2.png";
     this.image = this.standingStillImage;
 
     const dinoRunImage1 = new Image();
-    dinoRunImage1.src = "images/dino_run1.png";
+    dinoRunImage1.src = "images/mario_run1.png";
 
     const dinoRunImage2 = new Image();
-    dinoRunImage2.src = "images/dino_run2.png";
+    dinoRunImage2.src = "images/mario_run2.png";
 
     this.dinoRunImages.push(dinoRunImage1);
     this.dinoRunImages.push(dinoRunImage2);
+
+    // New game over image
+    this.gameOverImage = new Image();
+    this.gameOverImage.src = "images/mario_game_over.png";
 
     //keyboard
     window.removeEventListener("keydown", this.keydown);
@@ -70,14 +74,19 @@ export default class Player {
     }
   };
 
-  update(gameSpeed, frameTimeDelta) {
+  update(gameSpeed, frameTimeDelta, isGameOver) {
     this.run(gameSpeed, frameTimeDelta);
 
-    if (this.jumpInProgress) {
-      this.image = this.standingStillImage;
-    }
+    if (isGameOver) {
+      this.image = this.gameOverImage; // Change to game over image when game is over
+    } else {
 
-    this.jump(frameTimeDelta);
+      if (this.jumpInProgress) {
+        this.image = this.standingStillImage;
+      }
+
+      this.jump(frameTimeDelta);
+    }
   }
 
   jump(frameTimeDelta) {
